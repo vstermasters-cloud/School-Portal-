@@ -1,1414 +1,540 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Kenya School Portal - Find the Best Schools</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #1a56db;
-            --secondary: #059669;
-            --accent: #7e22ce;
-            --light: #f0f9ff;
-            --dark: #0f172a;
-        }
-        
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Montserrat', Arial, sans-serif;
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-            color: #1e293b;
-            min-height: 100vh;
-        }
-        
-        .dark-mode {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
-            color: #e2e8f0 !important;
-        }
-        
-        header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-            color: white;
-            padding: 3rem 0 4rem;
-            text-align: center;
-            border-bottom-left-radius: 40px;
-            border-bottom-right-radius: 40px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.1"><path fill="white" d="M28.2,38.6c0,0,13.9-15.4,33.2-7.5c19.3,7.9,19.7,25.3,20.7,31.6c1,6.3-9.3,9.3-14.9,9.3c-5.6,0-15.4-2.5-24.3-9.3C34,55.4,28.2,38.6,28.2,38.6z"/></svg>');
-            background-size: 200px;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-        
-        .logo-icon {
-            font-size: 2.5rem;
-            background: rgba(255,255,255,0.2);
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        h1 {
-            font-size: 2.8rem;
-            letter-spacing: 0.03em;
-            margin: 0;
-            font-weight: 800;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .tagline {
-            font-size: 1.3rem;
-            margin-top: 1rem;
-            margin-bottom: 2.5rem;
-            font-weight: 500;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-            opacity: 0.9;
-        }
-        
-        .hero-search {
-            max-width: 800px;
-            margin: 0 auto;
-            display: flex;
-            gap: 1rem;
-            background: white;
-            padding: 1rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            position: relative;
-            z-index: 10;
-        }
-        
-        .search-input-group {
-            flex: 1;
-            position: relative;
-        }
-        
-        .search-icon {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #64748b;
-        }
-        
-        .hero-search input {
-            width: 100%;
-            font-size: 1.1rem;
-            padding: 1rem 1rem 1rem 3rem;
-            border-radius: 15px;
-            border: 2px solid #e2e8f0;
-            outline: none;
-            transition: all 0.3s;
-            background: #f8fafc;
-        }
-        
-        .hero-search input::placeholder {
-            color: #94a3b8;
-        }
-        
-        .hero-search input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.1);
-            background: white;
-        }
-        
-        .hero-search select {
-            font-size: 1rem;
-            padding: 1rem;
-            border-radius: 15px;
-            border: 2px solid #e2e8f0;
-            outline: none;
-            background: #f8fafc;
-            cursor: pointer;
-            min-width: 160px;
-            color: #64748b;
-        }
-        
-        .hero-search select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.1);
-            background: white;
-            color: #1e293b;
-        }
-        
-        .search-btn {
-            background: linear-gradient(135deg, var(--secondary) 0%, #10b981 100%);
-            color: white;
-            font-weight: 700;
-            padding: 1rem 2rem;
-            border-radius: 15px;
-            border: none;
-            cursor: pointer;
-            font-size: 1.1rem;
-            box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3);
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .search-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(5, 150, 105, 0.4);
-        }
-        
-        .nav-bar {
-            max-width: 1200px;
-            margin: -40px auto 0;
-            background: white;
-            padding: 1rem 2rem;
-            border-radius: 20px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-            z-index: 100;
-        }
-        
-        .dark-mode .nav-bar {
-            background: #1e293b;
-            box-shadow: 0 5px 20px rgba(255,255,255,0.05);
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-        }
-        
-        .nav-bar a {
-            color: var(--primary);
-            font-weight: 600;
-            text-decoration: none;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            transition: all 0.3s;
-            padding: 0.5rem 1rem;
-            border-radius: 10px;
-        }
-        
-        .nav-bar a:hover {
-            color: var(--secondary);
-            background: #f1f5f9;
-        }
-        
-        .dark-mode .nav-bar a:hover {
-            background: #334155;
-        }
-        
-        .user-menu {
-            position: relative;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        
-        .user-avatar {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 10px;
-            transition: all 0.3s;
-        }
-        
-        .user-avatar:hover {
-            background: #f1f5f9;
-        }
-        
-        .dark-mode .user-avatar:hover {
-            background: #334155;
-        }
-        
-        .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--primary);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-        
-        .dropdown-menu {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            padding: 0.5rem;
-            min-width: 200px;
-            z-index: 1000;
-            display: none;
-            flex-direction: column;
-            margin-top: 0.5rem;
-        }
-        
-        .dark-mode .dropdown-menu {
-            background: #1e293b;
-            box-shadow: 0 10px 25px rgba(255,255,255,0.1);
-        }
-        
-        .dropdown-menu.show {
-            display: flex;
-        }
-        
-        .dropdown-item {
-            padding: 0.75rem 1rem;
-            color: #1e293b;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            border-radius: 8px;
-            transition: all 0.3s;
-        }
-        
-        .dark-mode .dropdown-item {
-            color: #e2e8f0;
-        }
-        
-        .dropdown-item:hover {
-            background: #f1f5f9;
-        }
-        
-        .dark-mode .dropdown-item:hover {
-            background: #334155;
-        }
-        
-        .dropdown-divider {
-            height: 1px;
-            background: #e2e8f0;
-            margin: 0.25rem 0;
-        }
-        
-        .dark-mode .dropdown-divider {
-            background: #475569;
-        }
-        
-        .filters-wrap {
-            display: flex;
-            gap: 1.5rem;
-            margin: 2.5rem auto 2rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            max-width: 1000px;
-            padding: 0 1rem;
-        }
-        
-        .filter-btn {
-            padding: 0.8rem 1.5rem;
-            font-size: 1rem;
-            border-radius: 50px;
-            border: 2px solid #cbd5e1;
-            color: #475569;
-            background: white;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 600;
-        }
-        
-        .filter-btn.active, .filter-btn:hover {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-        
-        .dark-mode .filter-btn {
-            background: #334155;
-            color: #cbd5e1;
-            border-color: #475569;
-        }
-        
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--dark);
-            margin: 2.5rem 0 1.5rem;
-            padding-left: 1rem;
-            border-left: 5px solid var(--secondary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .dark-mode .section-title {
-            color: #e2e8f0;
-        }
-        
-        .top-schools-section, .all-schools-section {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-        
-        .top-schools-list {
-            display: flex;
-            gap: 1.5rem;
-            overflow-x: auto;
-            padding: 1rem 0.5rem 2rem;
-            scrollbar-width: thin;
-        }
-        
-        .top-schools-list::-webkit-scrollbar {
-            height: 8px;
-        }
-        
-        .top-schools-list::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 10px;
-        }
-        
-        .school-card {
-            flex: 0 0 300px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            transition: all 0.3s;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .dark-mode .school-card {
-            background: #1e293b;
-            box-shadow: 0 5px 20px rgba(255,255,255,0.05);
-        }
-        
-        .school-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-        }
-        
-        .school-card.featured::before {
-            content: 'FEATURED';
-            position: absolute;
-            top: 15px;
-            right: -30px;
-            background: var(--accent);
-            color: white;
-            padding: 5px 30px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            transform: rotate(45deg);
-            box-shadow: 0 2px 10px rgba(126, 34, 206, 0.3);
-        }
-        
-        .school-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-        
-        .school-logo {
-            width: 70px;
-            height: 70px;
-            border-radius: 15px;
-            object-fit: cover;
-            background: #f1f5f9;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: var(--primary);
-        }
-        
-        .school-info h3 {
-            margin: 0;
-            font-size: 1.3rem;
-            font-weight: 700;
-        }
-        
-        .school-type {
-            background: #e0f2fe;
-            color: var(--primary);
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            display: inline-block;
-            margin-top: 0.3rem;
-        }
-        
-        .school-details {
-            margin: 1rem 0;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-        
-        .detail-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-            color: #64748b;
-        }
-        
-        .dark-mode .detail-item {
-            color: #94a3b8;
-        }
-        
-        .rating {
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-            color: #f59e0b;
-            font-weight: 600;
-        }
-        
-        .school-card .action-btn {
-            margin-top: auto;
-            background: linear-gradient(135deg, var(--primary) 0%, #3b82f6 100%);
-            color: white;
-            border: none;
-            padding: 0.8rem;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        
-        .school-card .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(26, 86, 219, 0.3);
-        }
-        
-        .school-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
-        
-        .stats-section {
-            max-width: 1200px;
-            margin: 3rem auto;
-            padding: 0 1rem;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-        }
-        
-        .stat-card {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            transition: all 0.3s;
-        }
-        
-        .dark-mode .stat-card {
-            background: #1e293b;
-            box-shadow: 0 5px 15px rgba(255,255,255,0.05);
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-        
-        .stat-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
-        }
-        
-        .stat-number {
-            font-size: 2.2rem;
-            font-weight: 800;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .stat-label {
-            font-size: 1rem;
-            color: #64748b;
-            font-weight: 600;
-        }
-        
-        .dark-mode .stat-label {
-            color: #94a3b8;
-        }
-        
-        .quick-actions {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-        
-        .actions-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-        
-        .action-card {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            transition: all 0.3s;
-            cursor: pointer;
-            border: 2px solid transparent;
-        }
-        
-        .dark-mode .action-card {
-            background: #1e293b;
-            box-shadow: 0 5px 15px rgba(255,255,255,0.05);
-        }
-        
-        .action-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-            box-shadow: 0 10px 25px rgba(26, 86, 219, 0.1);
-        }
-        
-        .action-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
-        }
-        
-        .action-card h3 {
-            margin: 0 0 0.5rem;
-            font-size: 1.3rem;
-            font-weight: 700;
-        }
-        
-        .action-card p {
-            margin: 0;
-            color: #64748b;
-            font-size: 0.9rem;
-        }
-        
-        .dark-mode .action-card p {
-            color: #94a3b8;
-        }
-        
-        footer {
-            background: var(--dark);
-            color: white;
-            padding: 3rem 1rem;
-            margin-top: 4rem;
-        }
-        
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-        
-        .footer-section h3 {
-            font-size: 1.3rem;
-            margin-bottom: 1.5rem;
-            position: relative;
-            padding-bottom: 0.5rem;
-        }
-        
-        .footer-section h3::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 40px;
-            height: 3px;
-            background: var(--secondary);
-        }
-        
-        .footer-links {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .footer-links li {
-            margin-bottom: 0.8rem;
-        }
-        
-        .footer-links a {
-            color: #cbd5e1;
-            text-decoration: none;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .footer-links a:hover {
-            color: white;
-            transform: translateX(5px);
-        }
-        
-        .copyright {
-            text-align: center;
-            padding-top: 2rem;
-            margin-top: 2rem;
-            border-top: 1px solid #334155;
-            color: #94a3b8;
-            font-size: 0.9rem;
-        }
-        
-        .saved-children-bar {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-            margin: 1.5rem auto;
-            padding: 1rem 1.5rem;
-            border-radius: 15px;
-            max-width: 1200px;
-            color: white;
-            box-shadow: 0 5px 15px rgba(26, 86, 219, 0.2);
-            display: none;
-        }
-        
-        .saved-child-chip {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border-radius: 20px;
-            padding: 0.5rem 1rem;
-            margin: 0.3rem 0.5rem 0.3rem 0;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .saved-child-chip:hover {
-            background: rgba(255,255,255,0.3);
-            transform: translateY(-2px);
-        }
-        
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--primary);
-            cursor: pointer;
-        }
-        
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .tagline {
-                font-size: 1.1rem;
-            }
-            
-            .hero-search {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .nav-bar {
-                flex-direction: column;
-                gap: 1rem;
-                padding: 1rem;
-            }
-            
-            .nav-links {
-                flex-direction: column;
-                gap: 0.5rem;
-                width: 100%;
-                display: none;
-            }
-            
-            .nav-links.active {
-                display: flex;
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-                position: absolute;
-                right: 1rem;
-                top: 1rem;
-            }
-            
-            .user-info {
-                width: 100;
-                justify-content: center;
-            }
-            
-            .school-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .top-schools-list {
-                gap: 1rem;
-            }
-            
-            .school-card {
-                flex: 0 0 85%;
-            }
-        }
-        
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 1rem 1.5rem;
-            background: var(--secondary);
-            color: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transform: translateY(100px);
-            opacity: 0;
-            transition: all 0.3s;
-        }
-        
-        .toast.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
-    </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Sponsored AdsKE — Live Trends & AI Predictions</title>
+
+<meta property="og:title" content="Sponsored AdsKE — Live Trends & AI Predictions" />
+<meta property="og:description" content="Find trending posts and advertise in comments — global & local trends with AI predictions." />
+<meta property="og:image" content="https://example.com/preview.png" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+<style>
+:root{
+  --bg:#ffffff;
+  --deep-purple:#5A189A;
+  --accent:#7C4DFF;
+  --muted:#6b6b78;
+  --card-radius:14px;
+  --pad:12px;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:var(--bg);font-family:"Poppins",system-ui,-apple-system,Segoe UI,Roboto,Arial;color:#111}
+.container{max-width:480px;margin:0 auto;padding:12px}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}
+.brand{display:flex;gap:10px;align-items:center}
+.logo{width:48px;height:48px;border-radius:12px;background:linear-gradient(90deg,var(--deep-purple),var(--accent));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800}
+.title{font-weight:700;font-size:18px;color:var(--deep-purple)}
+.subtitle{font-size:12px;color:var(--muted)}
+
+/* Controls */
+.selects{display:flex;flex-direction:column;gap:6px}
+select{padding:8px;border-radius:8px;border:1px solid rgba(0,0,0,0.06)}
+
+/* Card */
+.card{background:#fff;border-radius:var(--card-radius);box-shadow:0 10px 22px rgba(90,24,154,0.06);margin-bottom:12px;border:2px solid rgba(90,24,154,0.06);overflow:hidden}
+.card-header{background:linear-gradient(90deg,var(--deep-purple),var(--accent));color:#fff;padding:10px 12px;font-weight:700}
+.card-body{padding:12px;color:#111}
+
+/* Graph */
+.chart-wrap{height:200px;border-radius:10px;background:linear-gradient(180deg,rgba(122,86,255,0.03),rgba(122,86,255,0.01));padding:8px}
+canvas{width:100%;height:180px;}
+
+/* Top trends grid */
+.trends-grid{display:grid;grid-template-columns:1fr;gap:8px}
+.trend-card{display:flex;gap:10px;align-items:center;background:#fff;padding:8px;border-radius:10px;border:1px solid rgba(0,0,0,0.04);cursor:pointer}
+.tthumb{width:72px;height:52px;border-radius:8px;object-fit:cover}
+.ttitle{font-weight:700;color:var(--deep-purple);font-size:14px}
+.tmeta{font-size:12px;color:var(--muted);margin-top:6px}
+
+/* categories */
+.cat-grid{display:grid;grid-template-columns:1fr;gap:10px}
+.cat-card .cat-list{display:grid;gap:8px;margin-top:8px}
+.post-card{display:flex;gap:8px;align-items:center;padding:8px;border-radius:8px;background:#fff;border:1px solid rgba(0,0,0,0.04);cursor:pointer}
+.post-thumb{width:64px;height:48px;border-radius:8px;object-fit:cover}
+.post-title{font-weight:700;color:var(--deep-purple);font-size:13px}
+.pred-box{margin-top:8px;padding:10px;border-radius:10px;background:linear-gradient(90deg,rgba(122,86,255,0.03),rgba(122,86,255,0.01));border:1px dashed rgba(122,86,255,0.06);color:var(--deep-purple);font-weight:700}
+
+/* loading shimmer */
+.shimmer{background:linear-gradient(90deg,#f4f4f4,#ececec,#f4f4f4);background-size:200% 100%;animation:shimmer 1.4s linear infinite;border-radius:8px}
+@keyframes shimmer{from{background-position:200% 0}to{background-position:-200% 0}}
+
+/* modal */
+.modal-backdrop{position:fixed;inset:0;display:none;align-items:flex-end;justify-content:center;background:rgba(0,0,0,0.45);z-index:999}
+.modal{background:#fff;width:100%;max-width:480px;padding:12px;border-top-left-radius:12px;border-top-right-radius:12px}
+
+/* floating buttons */
+.float-share{position:fixed;right:12px;bottom:12px;background:linear-gradient(90deg,var(--accent),var(--deep-purple));color:#fff;padding:12px;border-radius:50px;font-weight:700;z-index:999}
+.float-wa{position:fixed;left:12px;bottom:12px;background:#25D366;color:#fff;padding:12px;border-radius:50px;font-weight:700;z-index:998}
+
+/* small */
+.small{font-size:12px;color:var(--muted)}
+@media(max-width:480px){ .container{padding:10px} .logo{width:44px;height:44px} }
+</style>
 </head>
 <body>
+  <div class="container" id="app">
     <header>
-        <button type="button" id="darkModeToggle" class="absolute top-6 right-6 bg-white/20 text-white p-2 rounded-full cursor-pointer z-10">
-            <i class="fas fa-moon"></i>
-        </button>
-        
-        <div class="logo">
-            <div class="logo-icon">
-                <i class="fas fa-graduation-cap"></i>
-            </div>
-            <h1>Kenya School Portal</h1>
+      <div class="brand">
+        <div class="logo">SA</div>
+        <div>
+          <div class="title">Sponsored AdsKE</div>
+          <div class="subtitle">Find trending posts — advertise in comments</div>
         </div>
-        
-        <p class="tagline">Find, compare, and connect with the best schools in every county — all from one place.</p>
-        
-        <form class="hero-search" id="mainSearchForm" onsubmit="return false;">
-            <div class="search-input-group">
-                <i class="search-icon fas fa-search"></i>
-                <input type="search" id="heroSearchInput" placeholder="Search schools, students, or admission numbers..." />
-            </div>
-            <select id="levelFilter">
-                <option value="">School Level</option>
-                <option value="Pre-primary">Pre-primary</option>
-                <option value="Primary">Primary</option>
-                <option value="Junior Secondary">Junior Secondary</option>
-                <option value="Senior Secondary">Senior Secondary</option>
-            </select>
-            <select id="countyFilter">
-                <option value="">Select County</option>
-            </select>
-            <button id="mainSearchBtn" type="button" class="search-btn">
-                <i class="fas fa-search"></i> Search
-            </button>
-        </form>
+      </div>
+
+      <div class="selects" aria-hidden="false">
+        <select id="countrySelect" title="Select country"></select>
+        <select id="regionSelect" title="Select region (optional)"><option>All</option></select>
+      </div>
     </header>
 
-    <div class="nav-bar">
-        <button class="mobile-menu-btn" id="mobileMenuBtn">
-            <i class="fas fa-bars"></i>
-        </button>
-        
-        <div class="nav-links" id="navLinks">
-            <a href="#news"><i class="fas fa-newspaper"></i> News & Resources</a>
-            <a href="#contact"><i class="fas fa-envelope"></i> Contact Us</a>
+    <!-- Graph -->
+    <div class="card" id="graphCard">
+      <div class="card-header">AI Activity Flow — Updated Live</div>
+      <div class="card-body">
+        <div class="small">This chart shows activity across categories. Use it to spot where attention is highest.</div>
+        <div class="chart-wrap" style="margin-top:10px">
+          <canvas id="activityChart"></canvas>
         </div>
-        
-        <div class="user-menu">
-            <div class="user-avatar" id="userAvatar">
-                <div class="avatar">GU</div>
-                <span>Guest User</span>
-                <i class="fas fa-chevron-down"></i>
-            </div>
-            
-            <div class="dropdown-menu" id="dropdownMenu">
-                <a href="login.html" class="dropdown-item">
-                    <i class="fas fa-sign-in-alt"></i> Login
-                </a>
-                <a href="add_school.html" class="dropdown-item">
-                    <i class="fas fa-plus-circle"></i> Add Your School
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item" id="logoutBtn" style="display: none;">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </a>
-            </div>
-        </div>
+        <div class="small" id="graphNote">Auto-updates every 5-15 seconds. Data updates every 10 minutes.</div>
+      </div>
     </div>
 
-    <div class="saved-children-bar" id="savedChildrenBar">
-        <b><i class="fas fa-child"></i> Your Saved Children:</b>
-        <div id="savedChildrenChips" style="display: inline; margin-left: 1rem;"></div>
+    <!-- Top 10 trends -->
+    <div class="card" id="topTrendsCard">
+      <div class="card-header">🔥 Top Trends (Ranked)</div>
+      <div class="card-body">
+        <div class="small">Top trending posts — click to open in your preferred app and comment.</div>
+        <div id="topTrends" class="trends-grid" style="margin-top:10px">
+          <!-- shimmer placeholders -->
+          <div class="trend-card"><div class="shimmer tthumb" style="width:72px;height:52px"></div><div style="flex:1"><div class="shimmer" style="height:14px;width:70%"></div><div style="height:8px"></div><div class="shimmer" style="height:12px;width:50%"></div></div></div>
+          <div class="trend-card"><div class="shimmer tthumb" style="width:72px;height:52px"></div><div style="flex:1"><div class="shimmer" style="height:14px;width:60%"></div><div style="height:8px"></div><div class="shimmer" style="height:12px;width:40%"></div></div></div>
+        </div>
+      </div>
     </div>
 
-    <div class="filters-wrap">
-        <span style="font-weight:700;color:var(--primary);">Browse by:</span>
-        <button class="filter-btn active"><i class="fas fa-star"></i> Top Rated</button>
-        <button class="filter-btn"><i class="fas fa-map-marker-alt"></i> Nearest</button>
-        <button class="filter-btn"><i class="fas fa-money-bill-wave"></i> Affordable</button>
-        <button class="filter-btn"><i class="fas fa-chart-line"></i> High Performance</button>
+    <!-- All Categories Visible -->
+    <div id="categoriesContainer">
+      <!-- All categories will be populated here -->
     </div>
 
-    <section class="quick-actions">
-        <div class="actions-grid">
-            <div class="action-card" onclick="window.location.href='add_school.html'">
-                <div class="action-icon">
-                    <i class="fas fa-user-plus"></i>
-                </div>
-                <h3>Register Your School</h3>
-                <p>Get your school on the portal to reach more parents</p>
-            </div>
-            <div class="action-card" onclick="window.location.href='login.html'">
-                <div class="action-icon">
-                    <i class="fas fa-search"></i>
-                </div>
-                <h3>Find a Student</h3>
-                <p>Search for a student by name or admission number</p>
-            </div>
-            <div class="action-card" onclick="window.location.href='#news'">
-                <div class="action-icon">
-                    <i class="fas fa-download"></i>
-                </div>
-                <h3>Free Resources</h3>
-                <p>Download CBC notes, schemes of work and more</p>
-            </div>
+    <!-- Advertise box -->
+    <div class="card">
+      <div class="card-header">Advertise With Us</div>
+      <div class="card-body">
+        <div class="small">Want your business featured? Contact admin to arrange ad placement (manual review for quality).</div>
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button id="adBtn" style="flex:1;padding:10px;border-radius:8px;background:linear-gradient(90deg,var(--accent),var(--deep-purple));border:none;color:#fff;font-weight:700">Request Ad</button>
+          <button id="contactBtn" style="flex:1;padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);background:#fff">Contact Admin</button>
         </div>
-    </section>
-
-    <section class="stats-section">
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-school"></i>
-                </div>
-                <div class="stat-number">1,247</div>
-                <div class="stat-label">Schools Registered</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-user-graduate"></i>
-                </div>
-                <div class="stat-number">24,891</div>
-                <div class="stat-label">Students Tracked</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-chalkboard-teacher"></i>
-                </div>
-                <div class="stat-number">8,562</div>
-                <div class="stat-label">Active Teachers</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-smile"></i>
-                </div>
-                <div class="stat-number">87%</div>
-                <div class="stat-label">Parent Satisfaction</div>
-            </div>
-        </div>
-    </section>
-
-    <section class="top-schools-section">
-        <div class="section-title">
-            <i class="fas fa-crown"></i> Top Rated Schools
-        </div>
-        <div class="top-schools-list" id="topSchoolsList">
-            <!-- Top schools will be loaded here -->
-        </div>
-    </section>
-
-    <section class="all-schools-section">
-        <div class="section-title">
-            <i class="fas fa-list"></i> All Schools
-        </div>
-        <div class="school-grid" id="schoolGrid">
-            <!-- All schools will be loaded here -->
-        </div>
-    </section>
-
-    <section id="news" class="max-w-1200 mx-auto px-4 my-8">
-        <div class="section-title">
-            <i class="fas fa-newspaper"></i> Latest News & Free Educational Resources
-        </div>
-        <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-md">
-            <p class="mb-3"><b>MOE Update:</b> Government releases new CBC notes and schemes of work for JSS. &mdash; <a href="#" class="text-blue-600 dark:text-blue-400 font-medium">Download Here</a></p>
-            <p class="mb-3">Guide: <a href="#" class="text-blue-600 dark:text-blue-400 font-medium">How to choose the best school for your child</a></p>
-            <p>See <a href="#" class="text-blue-600 dark:text-blue-400 font-medium">more resources</a> or <a href="#" class="text-blue-600 dark:text-blue-400 font-medium">Contact admin</a> for assistance.</p>
-        </div>
-    </section>
-
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>Kenya School Portal</h3>
-                <p>Connecting parents, students, and schools across Kenya for better education outcomes.</p>
-            </div>
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <ul class="footer-links">
-                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a></li>
-                    <li><a href="#news"><i class="fas fa-newspaper"></i> News & Resources</a></li>
-                    <li><a href="#contact"><i class="fas fa-envelope"></i> Contact Us</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Contact Info</h3>
-                <ul class="footer-links">
-                    <li><a href="tel:+254700000000"><i class="fas fa-phone"></i> +254 700 000 000</a></li>
-                    <li><a href="mailto:info@kenyaschools.co.ke"><i class="fas fa-envelope"></i> info@kenyaschools.co.ke</a></li>
-                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="copyright">
-            &copy; 2023 Kenya School Portal. All rights reserved.
-        </div>
-    </footer>
-
-    <div id="statusMessage" class="fixed bottom-4 left-4 bg-white dark:bg-slate-800 shadow-lg rounded-lg px-4 py-2 text-sm"></div>
-
-    <div id="toast" class="toast">
-        <i class="fas fa-check-circle"></i>
-        <span id="toastMessage">Operation completed successfully</span>
+      </div>
     </div>
 
-    <!-- Firebase + app logic -->
-    <script type="module">
-        // Import the functions you need from the SDKs
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-        import { getFirestore, collection, onSnapshot, getDocs, query, where, orderBy } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
-        import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-storage.js";
+    <div style="height:120px"></div>
+  </div>
 
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyBnpne91aBQsRYefwHO5fcaGliJTo8jhMk",
-            authDomain: "school-portal-233f5.firebaseapp.com",
-            projectId: "school-portal-233f5",
-            storageBucket: "school-portal-233f5.appspot.com",
-            messagingSenderId: "314984934331",
-            appId: "1:314984934331:web:92922fcc7a959e1fa0729e"
-        };
+  <!-- floating -->
+  <div class="float-share" id="shareBtn">Share</div>
+  <div class="float-wa" id="waBtn">WhatsApp</div>
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-        const storage = getStorage(app);
+  <!-- modal -->
+  <div class="modal-backdrop" id="modalBackdrop"><div class="modal" id="modalContent"></div></div>
 
-        // Counties in Kenya
-        const COUNTY_LIST = [
-            "Baringo","Bomet","Bungoma","Busia","Elgeyo Marakwet","Embu","Garissa","Homa Bay","Isiolo","Kajiado","Kakamega","Kericho","Kiambu","Kilifi","Kirinyaga","Kisii","Kisumu","Kitui","Kwale","Laikipia","Lamu","Machakos","Makueni","Mandera","Marsabit","Meru","Migori","Mombasa","Murang'a","Nairobi","Nakuru","Nandi","Narok","Nyamira","Nyandarua","Nyeri","Samburu","Siaya","Taita Taveta","Tana River","Tharaka Nithi","Trans Nzoia","Turkana","Uasin Gishu","Vihiga","Wajir","West Pokot"
-        ];
+<script type="module">
+/*
+  Sponsored AdsKE — Optimized Version
+  - All categories visible (no "See More")
+  - Data stored in Firebase, updated every 10 minutes
+  - UI rotates content every 5-15 seconds
+  - Each category has its own AI predictions
+  - Users select app/website when clicking posts
+*/
 
-        // DOM references
-        const countyFilter = document.getElementById('countyFilter');
-        const heroSearchInput = document.getElementById('heroSearchInput');
-        const mainSearchBtn = document.getElementById('mainSearchBtn');
-        const statusMessage = document.getElementById('statusMessage');
-        const schoolGrid = document.getElementById('schoolGrid');
-        const topSchoolsList = document.getElementById('topSchoolsList');
-        const savedChildrenBar = document.getElementById('savedChildrenBar');
-        const savedChildrenChips = document.getElementById('savedChildrenChips');
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const navLinks = document.getElementById('navLinks');
-        const toast = document.getElementById('toast');
-        const toastMessage = document.getElementById('toastMessage');
-        const userAvatar = document.getElementById('userAvatar');
-        const dropdownMenu = document.getElementById('dropdownMenu');
-        const logoutBtn = document.getElementById('logoutBtn');
+const firebaseConfig = {
+  apiKey: "AIzaSyBOZaKuTUTAMgQ7wgA4dsMS6CGbXp-9Muo",
+  authDomain: "vster-69f85.firebaseapp.com",
+  databaseURL: "https://vster-69f85-default-rtdb.firebaseio.com",
+  projectId: "vster-69f85",
+  storageBucket: "vster-69f85.appspot.com",
+  messagingSenderId: "475906173839",
+  appId: "1:475906173839:web:dac65e3a5402b5a31e7c2d"
+};
 
-        // Populate county selects
-        countyFilter.innerHTML = '<option value="">Select County</option>' + COUNTY_LIST.map(c => `<option value="${c}">${c}</option>`).join('');
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js';
+import { 
+  getDatabase, 
+  ref, 
+  get, 
+  onValue 
+} from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js';
 
-        // Dark mode toggle
-        darkModeToggle.addEventListener('click', () => {
-            const on = document.body.classList.toggle('dark-mode');
-            darkModeToggle.innerHTML = on ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-            localStorage.setItem('darkMode', on ? 'enabled' : 'disabled');
-        });
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
-        // Apply saved dark mode preference
-        const savedDark = localStorage.getItem('darkMode');
-        if (savedDark === 'enabled') { 
-            document.body.classList.add('dark-mode'); 
-            darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-        }
+/* UI elements */
+const topTrendsEl = document.getElementById('topTrends');
+const categoriesContainer = document.getElementById('categoriesContainer');
+const modalBackdrop = document.getElementById('modalBackdrop');
+const modalContent = document.getElementById('modalContent');
+const graphNote = document.getElementById('graphNote');
+const countrySelect = document.getElementById('countrySelect');
+const regionSelect = document.getElementById('regionSelect');
 
-        // Mobile menu toggle
-        mobileMenuBtn.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            mobileMenuBtn.innerHTML = navLinks.classList.contains('active') ? 
-                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
-        });
+/* All categories to display */
+const allCategories = [
+  'market', 'sports', 'weather', 'traffic', 'news',
+  'entertainment', 'technology', 'business', 'health', 'education'
+];
 
-        // User dropdown menu
-        userAvatar.addEventListener('click', (e) => {
-            e.stopPropagation();
-            dropdownMenu.classList.toggle('show');
-        });
+/* helper: show/hide modal */
+function showModal(html){ 
+  modalContent.innerHTML = html; 
+  modalBackdrop.style.display='flex'; 
+}
 
-        // Close dropdown when clicking outside
-        document.addEventListener('click', () => {
-            dropdownMenu.classList.remove('show');
-        });
+function hideModal(){ 
+  modalBackdrop.style.display='none'; 
+  modalContent.innerHTML=''; 
+}
 
-        // State
-        let schoolsLocal = [];
+modalBackdrop.addEventListener('click', e => { 
+  if(e.target === modalBackdrop) hideModal(); 
+});
 
-        // Utility functions
-        function showStatus(msg, err = false) {
-            statusMessage.textContent = msg;
-            statusMessage.className = err ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800';
-        }
+/* small utilities */
+function toArray(obj){ 
+  if(!obj) return []; 
+  if(Array.isArray(obj)) return obj; 
+  return Object.keys(obj).map(k => Object.assign({_id: k}, obj[k])); 
+}
 
-        function showToast(msg, type = 'success') {
-            toastMessage.textContent = msg;
-            toast.className = `toast ${type === 'error' ? 'bg-red-500' : 'bg-green-500'}`;
-            toast.classList.add('show');
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
+function timeAgo(t){ 
+  try{ 
+    const d = new Date(typeof t === 'number' ? t : t); 
+    const diff = Math.floor((Date.now() - d.getTime())/60000); 
+    if(diff < 1) return 'just now'; 
+    if(diff < 60) return diff + 'm'; 
+    return Math.floor(diff/60) + 'h'; 
+  } catch(e) { return ''; } 
+}
 
-        function createSchoolCard(docId, s, isFeatured = false) {
-            const container = document.createElement('div');
-            container.className = `school-card ${isFeatured ? 'featured' : ''}`;
-            
-            const logoContent = s.logoUrl ? 
-                `<img src="${s.logoUrl}" class="school-logo" alt="${s.name} logo">` : 
-                `<div class="school-logo"><i class="fas fa-school"></i></div>`;
-                
-            const ratingStars = '★'.repeat(s.rating || 4) + '☆'.repeat(5 - (s.rating || 4));
-            
-            container.innerHTML = `
-                <div class="school-header">
-                    ${logoContent}
-                    <div class="school-info">
-                        <h3>${s.name || 'Unnamed School'}</h3>
-                        <span class="school-type">${s.type || 'School'}</span>
-                    </div>
-                </div>
-                <div class="school-details">
-                    <div class="detail-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>${s.county || (s.location || 'Kenya')}</span>
-                    </div>
-                    <div class="detail-item">
-                        <i class="fas fa-graduation-cap"></i>
-                        <span>${s.levels || 'All Levels'}</span>
-                    </div>
-                    <div class="detail-item">
-                        <i class="fas fa-star"></i>
-                        <span class="rating">${ratingStars} (${s.rating || 4}.0)</span>
-                    </div>
-                    ${s.price ? `
-                    <div class="detail-item">
-                        <i class="fas fa-money-bill-wave"></i>
-                        <span>KES ${s.price.toLocaleString()} per term</span>
-                    </div>` : ''}
-                </div>
-                <button class="action-btn" data-id="${docId}">
-                    <i class="fas fa-external-link-alt"></i> Visit School
-                </button>
-            `;
-            
-            const btn = container.querySelector('.action-btn');
-            btn.addEventListener('click', () => {
-                window.location.href = `school.html?id=${docId}`;
-            });
-            
-            return container;
-        }
+/* Content rotation system */
+const contentRotators = new Map();
 
-        // Load schools in real-time
-        function loadSchoolsRealtime() {
-            showStatus('Loading schools...');
-            const col = collection(db, "schools");
-            
-            onSnapshot(col, (snap) => {
-                schoolsLocal = [];
-                schoolGrid.innerHTML = '';
-                topSchoolsList.innerHTML = '';
-                
-                if (snap.empty) {
-                    showStatus('No schools found', true);
-                    schoolGrid.innerHTML = `<p class="text-center py-8">No schools registered yet. <a href="add_school.html" class="text-blue-600">Add your school</a> to get started.</p>`;
-                    return;
-                }
+function startContentRotation(containerId, items, interval = 8000) {
+  if (!items || items.length === 0) return;
+  
+  let currentIndex = 0;
+  
+  // Clear existing rotator
+  if (contentRotators.has(containerId)) {
+    clearInterval(contentRotators.get(containerId));
+  }
+  
+  const rotator = setInterval(() => {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    
+    currentIndex = (currentIndex + 1) % items.length;
+    const currentItem = items[currentIndex];
+    
+    // Update container with current item
+    if (containerId.includes('_list')) {
+      renderSinglePost(container, currentItem);
+    } else if (containerId.includes('_pred')) {
+      renderSinglePrediction(container, currentItem);
+    }
+  }, interval);
+  
+  contentRotators.set(containerId, rotator);
+}
 
-                snap.forEach(d => {
-                    const s = d.data();
-                    s.__id = d.id;
-                    schoolsLocal.push(s);
-                });
+function renderSinglePost(container, post) {
+  container.innerHTML = '';
+  
+  const row = document.createElement('div'); 
+  row.className = 'post-card';
+  
+  const img = document.createElement('img'); 
+  img.className = 'post-thumb'; 
+  img.src = post.image || post.thumb || `https://via.placeholder.com/64x48/5A189A/white?text=📱`;
+  img.alt = post.title || 'Post';
+  
+  const meta = document.createElement('div'); 
+  meta.style.flex = '1';
+  
+  const t = document.createElement('div'); 
+  t.className = 'post-title'; 
+  t.textContent = post.title || post.text || post.tag || 'Trending Post';
+  
+  const s = document.createElement('div'); 
+  s.className = 'small'; 
+  s.style.marginTop = '6px'; 
+  s.textContent = (post.source || 'Social Media') + (post.timestamp ? ' • ' + timeAgo(post.timestamp) : '');
+  
+  meta.appendChild(t); 
+  meta.appendChild(s);
+  row.appendChild(img); 
+  row.appendChild(meta);
+  
+  row.addEventListener('click', () => onItemOpen(post));
+  container.appendChild(row);
+}
 
-                // Show all schools and featured schools
-                showSchools(schoolsLocal);
-                showTopSchools(schoolsLocal.filter(s => s.featured).slice(0, 6));
-                showStatus(`${schoolsLocal.length} schools loaded successfully`);
-            }, (err) => {
-                console.error('Schools loading error:', err);
-                showStatus('Unable to load schools: ' + err.message, true);
-            });
-        }
+function renderSinglePrediction(container, prediction) {
+  container.innerHTML = '';
+  
+  const predEl = document.createElement('div');
+  predEl.className = 'pred-box';
+  predEl.textContent = prediction;
+  container.appendChild(predEl);
+}
 
-        function showSchools(list) {
-            schoolGrid.innerHTML = '';
-            
-            if (!list.length) {
-                schoolGrid.innerHTML = '<p class="text-center py-8 col-span-full">No schools match your search criteria.</p>';
-                return;
-            }
-            
-            list.forEach(s => {
-                const id = s.__id || s.id || '';
-                const card = createSchoolCard(id, s);
-                schoolGrid.appendChild(card);
-            });
-        }
+/* --- Chart (Chart.js) --- */
+const ctx = document.getElementById('activityChart').getContext('2d');
+let points = Array.from({length: 28}, (_, i) => Math.round(40 + Math.sin(i/3)*8 + Math.random()*6));
+const activityChart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: Array(points.length).fill(''),
+    datasets: [{
+      data: points,
+      borderColor: getComputedStyle(document.documentElement).getPropertyValue('--deep-purple') || '#5A189A',
+      backgroundColor: 'rgba(90,24,154,0.06)',
+      tension: 0.45,
+      borderWidth: 3,
+      pointRadius: 0
+    }]
+  },
+  options: {
+    responsive: true,
+    animation: { duration: 700 },
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { display: true, grid: { display: true, color: 'rgba(0,0,0,0.05)', borderDash: [3,3] } },
+      y: { display: true, min: 0, max: 100, grid: { display: true, color: 'rgba(0,0,0,0.05)', borderDash: [3,3] } }
+    }
+  }
+});
 
-        function showTopSchools(list) {
-            topSchoolsList.innerHTML = '';
-            
-            if (!list.length) {
-                topSchoolsList.innerHTML = '<p class="text-center py-4">No featured schools at the moment.</p>';
-                return;
-            }
-            
-            list.forEach((s, idx) => {
-                const card = createSchoolCard(s.__id || s.id, s, true);
-                topSchoolsList.appendChild(card);
-            });
-        }
+function advanceChart(){
+  const last = activityChart.data.datasets[0].data.slice(-1)[0] || 40;
+  const delta = Math.round((Math.random()-0.45)*6);
+  const next = Math.max(5, Math.min(95, last + delta + Math.round(Math.random()*3-1)));
+  activityChart.data.datasets[0].data.push(next);
+  activityChart.data.datasets[0].data.shift();
+  activityChart.update();
+}
 
-        // Search functionality
-        async function performSearch() {
-            const term = heroSearchInput.value.trim().toLowerCase();
-            const level = document.getElementById('levelFilter').value;
-            const county = document.getElementById('countyFilter').value;
-            
-            // If search looks like an admission number, try student lookup
-            if (term && /^(\d+|adm[\w-]+)$/i.test(term)) {
-                try {
-                    const studentsCol = collection(db, 'students');
-                    const snap = await getDocs(studentsCol);
-                    const found = [];
-                    
-                    snap.forEach(d => {
-                        const st = d.data();
-                        if ((st.admission && st.admission.toString().toLowerCase() === term) ||
-                            (st.name && st.name.toLowerCase().includes(term))) {
-                            found.push({ id: d.id, ...st });
-                        }
-                    });
-                    
-                    if (found.length) {
-                        const st = found[0];
-                        const save = confirm(`Found student: ${st.name} (Admission: ${st.admission}). Save to your children?`);
-                        if (save) {
-                            saveChildToLocal({ name: st.name, admission: st.admission, id: st.id, schoolId: st.schoolId || '' });
-                        }
-                        return;
-                    }
-                } catch (err) {
-                    console.error('Student search error:', err);
-                    showToast('Student search failed: ' + err.message, 'error');
-                }
-            }
-            
-            // Filter schools
-            let filtered = schoolsLocal.slice();
-            
-            if (term) {
-                filtered = filtered.filter(s => 
-                    (s.name || '').toLowerCase().includes(term) || 
-                    (s.location || '').toLowerCase().includes(term) ||
-                    (s.description || '').toLowerCase().includes(term)
-                );
-            }
-            
-            if (level) {
-                filtered = filtered.filter(s => (s.levels || '').toLowerCase().includes(level.toLowerCase()));
-            }
-            
-            if (county) {
-                filtered = filtered.filter(s => (s.county || '').toLowerCase().includes(county.toLowerCase()));
-            }
-            
-            showSchools(filtered);
-            
-            // Scroll to results
-            document.querySelector('.all-schools-section').scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'start' 
-            });
-        }
+/* --- Data fetch functions --- */
+function dbRef(path){ return ref(db, path); }
 
-        // Saved children functionality
-        function renderSavedChildren() {
-            const saved = JSON.parse(localStorage.getItem('savedChildren') || '[]');
-            
-            if (!saved.length) {
-                savedChildrenBar.style.display = 'none';
-                return;
-            }
-            
-            savedChildrenChips.innerHTML = '';
-            saved.forEach(child => {
-                const chip = document.createElement('span');
-                chip.className = 'saved-child-chip';
-                chip.innerHTML = `<i class="fas fa-user"></i> ${child.name} (${child.admission})`;
-                chip.addEventListener('click', () => {
-                    window.location.href = `student-profile.html?schoolId=${child.schoolId || ''}&id=${child.id || ''}&admission=${child.admission}`;
-                });
-                savedChildrenChips.appendChild(chip);
-            });
-            
-            savedChildrenBar.style.display = 'flex';
-        }
+async function fetchNode(path){
+  try{
+    const snap = await get(dbRef(path));
+    return snap.exists() ? snap.val() : null;
+  } catch(e) { 
+    console.error('fetchNode', e); 
+    return null; 
+  }
+}
 
-        function saveChildToLocal(child) {
-            const saved = JSON.parse(localStorage.getItem('savedChildren') || '[]');
-            
-            if (saved.some(s => s.admission === child.admission)) {
-                showToast('Child already saved', 'error');
-                return;
-            }
-            
-            saved.push(child);
-            localStorage.setItem('savedChildren', JSON.stringify(saved));
-            renderSavedChildren();
-            showToast('Child saved successfully');
-        }
+/* Build all category cards */
+function buildAllCategories(){
+  categoriesContainer.innerHTML = '';
+  allCategories.forEach(cat => {
+    const id = 'cat_' + cat;
+    const html = `<div class="card cat-card" id="${id}">
+      <div class="card-header" style="text-transform:capitalize">${cat}</div>
+      <div class="card-body">
+        <div class="small">Latest trending posts in ${cat}</div>
+        <div id="${id}_list" class="cat-list" style="min-height:60px">
+          <div class="shimmer" style="height:48px;border-radius:8px"></div>
+        </div>
+        <div id="${id}_pred" class="pred-box">AI analyzing trends...</div>
+      </div>
+    </div>`;
+    categoriesContainer.insertAdjacentHTML('beforeend', html);
+  });
+}
 
-        // Initialize the application
-        function startApp() {
-            if (!navigator.onLine) {
-                showStatus('You are offline — showing cached data', true);
-            }
-            
-            loadSchoolsRealtime();
-            renderSavedChildren();
-            
-            // Check authentication status
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    const userInfo = userAvatar.querySelector('span');
-                    const avatar = userAvatar.querySelector('.avatar');
-                    userInfo.textContent = user.email;
-                    avatar.textContent = user.email.charAt(0).toUpperCase();
-                    
-                    // Show logout button
-                    logoutBtn.style.display = 'block';
-                    
-                    logoutBtn.addEventListener('click', () => {
-                        signOut(auth);
-                    });
-                }
-            });
-        }
+/* Render top trends */
+async function renderTopTrends(data){
+  const arr = toArray(data);
+  
+  // If no data, use sample data
+  const trends = arr.length > 0 ? arr.slice(0, 6) : await generateSampleTrends();
+  
+  topTrendsEl.innerHTML = '';
+  
+  trends.forEach(p => {
+    const el = document.createElement('div'); 
+    el.className = 'trend-card';
+    
+    const img = document.createElement('img'); 
+    img.className = 'tthumb'; 
+    img.src = p.image || p.thumb || 'https://via.placeholder.com/72x52/7C4DFF/white?text=📈';
+    img.alt = p.title || 'Trend';
+    
+    const meta = document.createElement('div'); 
+    meta.style.flex = '1';
+    
+    const title = document.createElement('div'); 
+    title.className = 'ttitle'; 
+    title.textContent = p.title || p.tag || 'Trending Now';
+    
+    const sm = document.createElement('div'); 
+    sm.className = 'tmeta'; 
+    sm.textContent = (p.source || 'Social Media') + (p.timestamp ? ' • ' + timeAgo(p.timestamp) : '');
+    
+    meta.appendChild(title); 
+    meta.appendChild(sm);
+    el.appendChild(img); 
+    el.appendChild(meta);
+    el.addEventListener('click', () => onItemOpen(p));
+    topTrendsEl.appendChild(el);
+  });
+}
 
-        // Event listeners
-        mainSearchBtn.addEventListener('click', performSearch);
-        heroSearchInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') performSearch();
-        });
-        
-        document.getElementById('levelFilter').addEventListener('change', performSearch);
-        document.getElementById('countyFilter').addEventListener('change', performSearch);
+/* Load and rotate category data */
+async function loadCategoryData(cat, country = 'global'){
+  const node = country === 'global' ? `categories/${cat}/posts` : `countries/${country}/categories/${cat}/posts`;
+  const predsNode = country === 'global' ? `categories/${cat}/predictions` : `countries/${country}/categories/${cat}/predictions`;
+  
+  const postsData = await fetchNode(node);
+  const predsData = await fetchNode(predsNode);
+  
+  const posts = toArray(postsData);
+  const predictions = Array.isArray(predsData) ? predsData : [predsData || `AI predicts growth in ${cat} engagement`];
+  
+  // Use sample data if no Firebase data
+  const finalPosts = posts.length > 0 ? posts : await generateSampleCategoryPosts(cat);
+  const finalPredictions = predictions.length > 0 ? predictions : await generateSamplePredictions(cat);
+  
+  // Start rotation for this category
+  if (finalPosts.length > 0) {
+    const interval = 5000 + Math.random() * 10000; // 5-15 seconds
+    startContentRotation(`cat_${cat}_list`, finalPosts, interval);
+  }
+  
+  if (finalPredictions.length > 0) {
+    const predInterval = 8000 + Math.random() * 12000; // 8-20 seconds
+    startContentRotation(`cat_${cat}_pred`, finalPredictions, predInterval);
+  }
+}
 
-        // Filter buttons
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                // In a real app, this would filter the schools
-                showToast(`Filtered by: ${this.textContent.trim()}`);
-            });
-        });
+/* Generate sample data */
+async function generateSampleTrends() {
+  return [
+    {
+      _id: "1",
+      title: "Kenya Economic Forum 2024 Live Updates",
+      source: "Twitter",
+      timestamp: Date.now() - 1000 * 60 * 15,
+      image: "https://via.placeholder.com/72x52/5A189A/white?text=KE",
+      links: {
+        twitter: "https://twitter.com/search?q=KenyaEconomicForum",
+        facebook: "https://facebook.com",
+        tiktok: "https://tiktok.com"
+      }
+    },
+    {
+      _id: "2", 
+      title: "New Music Releases This Week",
+      source: "YouTube",
+      timestamp: Date.now() - 1000 * 60 * 30,
+      image: "https://via.placeholder.com/72x52/7C4DFF/white?text=🎵",
+      links: {
+        youtube: "https://youtube.com",
+        instagram: "https://instagram.com"
+      }
+    }
+  ];
+}
 
-        // Initialize when DOM is loaded
-        document.addEventListener('DOMContentLoaded', startApp);
+async function generateSampleCategoryPosts(category) {
+  const samples = {
+    market: [
+      { 
+        title: "Stock Market Hits Record High", 
+        source: "Financial News", 
+        timestamp: Date.now() - 1000 * 60 * 10,
+        links: { twitter: "https://twitter.com", website: "https://example.com" }
+      },
+      { 
+        title: "Currency Exchange Rates Update", 
+        source: "Forex", 
+        timestamp: Date.now() - 1000 * 60 * 25,
+        links: { twitter: "https://twitter.com", app: "https://example.com" }
+      }
+    ],
+    sports: [
+      { 
+        title: "Premier League Final Results", 
+        source: "Sports Center", 
+        timestamp: Date.now() - 1000 * 60 * 5,
+        links: { twitter: "https://twitter.com", facebook: "https://facebook.com" }
+      },
+      { 
+        title: "Local Tournament Highlights", 
+        source: "Kenya Sports", 
+        timestamp: Date.now() - 1000 * 60 * 40,
+        links: { instagram: "https://instagram.com", tiktok: "https://tiktok.com" }
+      }
+    ],
+    weather: [
+      { 
+        title: "Weekly Weather Forecast", 
+        source: "Met Department", 
+        timestamp: Date.now() - 1000 * 60 * 8,
+        links: { website: "https://weather.com", twitter: "https://twitter.com" }
+      }
+    ]
+  };
+  
+  return samples[category] || [
+    { 
+      title: `${category.charAt(0).toUpperCase() + category.slice(1)} Update`, 
+      source: "News", 
+      timestamp: Date.now() - 1000 * 60 * 15,
+      links: { twitter: "https://twitter.com", facebook: "https://facebook.com" }
+    }
+  ];
+}
 
-        // Online/offline handling
-        window.addEventListener('online', () => {
-            showStatus('Connection restored — loading latest data');
-            startApp();
-        });
+async function generateSamplePredictions(category) {
+  const predictions = {
+    market: [
+      "Market expected to rise 5% in next 24 hours",
+      "Trading volume increasing steadily",
+      "New investment opportunities emerging"
+    ],
+    sports: [
+      "Local teams showing strong performance",
+      "Fan engagement at all-time high",
+      "Sports betting trends shifting"
+    ],
+    weather: [
+      "Clear skies expected for weekend",
+      "Temperature variations ahead",
+      "Perfect conditions for outdoor events"
+    ]
+  };
+  
+  return predictions[category] || [
+    `Growing interest in ${category} content`,
+    `Engagement peaks expected soon`,
+    `New trends emerging in this category`
+  ];
+}
 
-        window.addEventListener('offline', () => {
-            showStatus('You are offline — showing cached data', true);
-        });
-    </script>
-</body>
-</html>
+/* Open item: show app selection modal */
+function onItemOpen(item){
+  const links = item.links || item.urls || item.platformLinks || {
+    twitter: "https://twitter.com",
+    facebook
